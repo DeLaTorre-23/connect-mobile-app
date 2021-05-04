@@ -30,8 +30,21 @@ export default class App extends React.Component {
         {/* Initialize the App from Home View */}
         <Stack.Navigator initialRouteName="Home">
           {/* Allows the user switch screens */}
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Chat" component={Chat} />
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Chat"
+            component={Chat}
+            /*
+            options={({ route }) => ({
+              title: route.params.name,
+              headerShown: false,
+            })}
+           */
+          />
         </Stack.Navigator>
       </NavigationContainer>
     );

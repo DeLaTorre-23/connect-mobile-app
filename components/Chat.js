@@ -5,20 +5,31 @@ import {
   Platform,
   KeyboardAvoidingView,
   Alert,
+  Image,
+  Text,
+  TouchableOpacity,
 } from "react-native";
 import {
   renderBubble,
   renderMessageText,
   renderSystemMessage,
 } from "./MessageView";
-import CustomActions from "./CustomActions";
+
 // Import the Gifted Chat Library
-import { GiftedChat, InputToolbar, Composer } from "react-native-gifted-chat";
+import {
+  GiftedChat,
+  InputToolbar,
+  Composer,
+  Send,
+} from "react-native-gifted-chat";
 import MapView from "react-native-maps";
 // Import the storage system for React Native
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // Import package to know if a user is on- or offline
 import NetInfo from "@react-native-community/netinfo";
+
+import CustomActions from "./CustomActions";
+import { NavigationEvents } from "react-navigation";
 
 // Establish a connection from Firebase to Firestore
 const firebase = require("firebase");
@@ -39,7 +50,7 @@ export default class Chat extends React.Component {
       isConnected: false,
       image: null,
       location: null,
-      // loggedInText: "Please wait, you are getting logged in",
+      loggedInText: "Please wait, you are getting logged in",
     };
 
     // Firebase configuration for the App
@@ -98,9 +109,42 @@ export default class Chat extends React.Component {
                 _id: user.uid,
                 name: name,
                 avatar: "http://placeimg.com/140/140/any",
+                createdAt: new Date(),
               },
-              messages: [],
-              // loggedInText: "You are signed up successfully",
+              messages: [
+                {
+                  _id: user.uid,
+                  text: `${name} has entered the chat`,
+                  createdAt: new Date(),
+                  system: true,
+                },
+                {
+                  /*
+                  _id: 1,
+                  createdAt: new Date(),
+                  user: {
+                    _id: 2,
+                    name: "React Native",
+                    avatar: "https://placeimg.com/140/140/any",
+                  },
+                  location: {
+                    latitude: 48.864601,
+                    longitude: 2.398704,
+                  },
+                */
+                },
+                /*{
+                  _id: 1,
+                  text: "Hello developer",
+                  createdAt: new Date(),
+                  user: {
+                    _id: 2,
+                    name: "React Native",
+                    avatar: "https://placeimg.com/140/140/any",
+                  },
+                },*/
+              ],
+              loggedInText: "",
             });
 
             // Listener for collection changes for current user
@@ -201,13 +245,13 @@ export default class Chat extends React.Component {
       messages.push({
         _id: data._id,
         createdAt: data.createdAt.toDate(),
-        text: data.text,
+        text: data.text || null,
         user: {
           _id: data.user._id,
           name: data.user.name,
           avatar: data.user.avatar,
         },
-        image: data.image || null,
+        image: data.image || "",
         location: data.location || null,
       });
     });
@@ -220,15 +264,19 @@ export default class Chat extends React.Component {
   renderInputToolbar(props) {
     if (this.state.isConnected == false) {
     } else {
-      return <InputToolbar {...props} />;
+      return (
+        <InputToolbar
+          {...props}
+          containerStyle={{
+            backgroundColor: "bgcolor",
+          }}
+          primaryStyle={{ alignItems: "center" }}
+        />
+      );
     }
   }
 
-  // Import CustomActions to display ActionSheet
-  renderCustomActions = (props) => {
-    <CustomActions {...props} />;
-  };
-
+  //Import the possibility to the input text to personalize it
   renderComposer = (props) => (
     <Composer
       {...props}
@@ -239,12 +287,36 @@ export default class Chat extends React.Component {
         borderRadius: 20,
         borderColor: "#E4E9F2",
         paddingTop: 8.5,
-        paddingHorizontal: 12,
-        marginLeft: 0,
-        marginRight: 10,
+        paddingHorizontal: 15,
+        paddingBottom: 5,
+        marginLeft: 5,
+        marginRight: 5,
+        marginBottom: 5,
       }}
     />
   );
+
+  //Import the render of to the send button on Chat View
+  renderSend = (props) => (
+    <Send
+      {...props}
+      disabled={!props.text}
+      containerStyle={{
+        width: 40,
+        height: 40,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Image
+        style={{ width: 30, height: 30 }}
+        source={require("../assets/send-icon.png")}
+      />
+    </Send>
+  );
+
+  // Import CustomActions to display ActionSheet
+  renderCustomActions = (props) => <CustomActions {...props} />;
 
   // Render view of map if location is included in message
   renderCustomView(props) {
@@ -267,24 +339,14 @@ export default class Chat extends React.Component {
 
   render() {
     const bgColor = this.props.route.params.bgColor;
+    //const { name } = this.props.route.params;
+    const { navigate } = this.props.navigation;
 
     //---------- Styles ----------//
     const styles = StyleSheet.create({
       container: {
         flex: 1,
         backgroundColor: bgColor,
-      },
-      box: {
-        flexDirection: "row",
-        height: 100,
-        backgroundColor: "#474056",
-        borderColor: "#000",
-        borderBottomWidth: 1,
-      },
-
-      userAvatar: {
-        top: 50,
-        right: 20,
       },
 
       bottomColorOverride: {
@@ -293,16 +355,12 @@ export default class Chat extends React.Component {
     });
 
     return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: bgColor,
-        }}
-      >
+      <View style={styles.container}>
         {/*
         <Text>{this.state.loggedInText}</Text>
         
         */}
+
         {/* Render the message inside of the speech bubbles */}
         <GiftedChat
           renderBubble={renderBubble}
@@ -312,13 +370,14 @@ export default class Chat extends React.Component {
           renderActions={this.renderCustomActions}
           renderComposer={this.renderComposer}
           renderCustomView={this.renderCustomView}
+          renderSend={this.renderSend}
           isConnected={this.state.isConnected}
           messages={this.state.messages}
           renderUsernameOnMessage
           showUserAvatar
           onSend={(messages) => this.onSend(messages)}
           user={{
-            _id: 1,
+            _id: this.state.user._id,
             avatar: this.state.user.avatar,
             name: this.state.user.name,
           }}

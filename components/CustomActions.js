@@ -1,12 +1,9 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, View, Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
-
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
-
 import firebase from "firebase";
 import "firebase/firestore";
 
@@ -189,9 +186,10 @@ const styles = StyleSheet.create({
     borderColor: "#b2b2b2",
     borderWidth: 2,
     flex: 1,
+    backgroundColor: "red",
   },
   iconText: {
-    color: "#b2b2b2",
+    color: "#050",
     fontWeight: "bold",
     fontSize: 16,
     backgroundColor: "transparent",
