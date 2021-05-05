@@ -22,7 +22,8 @@ import {
   Composer,
   Send,
 } from "react-native-gifted-chat";
-import MapView from "react-native-maps";
+
+//import MapView from "react-native-maps";
 // Import the storage system for React Native
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // Import package to know if a user is on- or offline
@@ -30,6 +31,7 @@ import NetInfo from "@react-native-community/netinfo";
 
 import CustomActions from "./CustomActions";
 import { NavigationEvents } from "react-navigation";
+import MapView from "react-native-maps";
 
 // Establish a connection from Firebase to Firestore
 const firebase = require("firebase");
@@ -339,7 +341,7 @@ export default class Chat extends React.Component {
 
   render() {
     const bgColor = this.props.route.params.bgColor;
-    //const { name } = this.props.route.params;
+    const { name } = this.props.route.params;
     const { navigate } = this.props.navigation;
 
     //---------- Styles ----------//

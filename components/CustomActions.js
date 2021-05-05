@@ -186,10 +186,9 @@ const styles = StyleSheet.create({
     borderColor: "#b2b2b2",
     borderWidth: 2,
     flex: 1,
-    backgroundColor: "red",
   },
   iconText: {
-    color: "#050",
+    color: "#b2b2b2",
     fontWeight: "bold",
     fontSize: 16,
     backgroundColor: "transparent",

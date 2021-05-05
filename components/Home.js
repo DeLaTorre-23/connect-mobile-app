@@ -185,6 +185,7 @@ const styles = StyleSheet.create({
 
   userContainer: {
     width: "88%",
+    marginTop: 65,
     height: 300,
     justifyContent: "space-between",
     marginRight: "auto",
