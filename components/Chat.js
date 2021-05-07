@@ -291,6 +291,7 @@ export default class Chat extends React.Component {
         paddingTop: 8.5,
         paddingHorizontal: 15,
         paddingBottom: 5,
+        marginTop: 5,
         marginLeft: 5,
         marginRight: 5,
         marginBottom: 5,
