@@ -41,7 +41,7 @@ export default class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
+      //name: "",
       messages: [],
       uid: 0,
       user: {
@@ -106,7 +106,7 @@ export default class Chat extends React.Component {
 
             // Update user state with currently active user data
             this.setState({
-              uid: user.uid,
+              //uid: user.uid,
               user: {
                 _id: user.uid,
                 name: name,
@@ -115,37 +115,41 @@ export default class Chat extends React.Component {
               },
               messages: [
                 {
+                  _id: 1,
+                  text: "Hello developer",
+                  createdAt: new Date(),
+                  location: {
+                    latitude: 48.864601,
+                    longitude: 2.398704,
+                  },
+                  user: {
+                    _id: 2,
+                    name: "React Native",
+                    avatar: "https://placeimg.com/140/140/any",
+                  },
+                },
+
+                {
+                  _id: 2,
+                  text: "What's up?",
+                  createdAt: new Date(),
+
+                  user: {
+                    _id: 2,
+                    name: "React Native",
+                    avatar: "https://placeimg.com/140/140/any",
+                  },
+                },
+                /*
+                {
                   _id: user.uid,
                   text: `${name} has entered the chat`,
                   createdAt: new Date(),
                   system: true,
                 },
-                {
-                  /*
-                  _id: 1,
-                  createdAt: new Date(),
-                  user: {
-                    _id: 2,
-                    name: "React Native",
-                    avatar: "https://placeimg.com/140/140/any",
-                  },
-                  location: {
-                    latitude: 48.864601,
-                    longitude: 2.398704,
-                  },
                 */
-                },
-                /*{
-                  _id: 1,
-                  text: "Hello developer",
-                  createdAt: new Date(),
-                  user: {
-                    _id: 2,
-                    name: "React Native",
-                    avatar: "https://placeimg.com/140/140/any",
-                  },
-                },*/
               ],
+
               loggedInText: "",
             });
 
@@ -329,8 +333,8 @@ export default class Chat extends React.Component {
         <MapView
           style={{ width: 150, height: 100, borderRadius: 13, margin: 3 }}
           region={{
-            latitude: currentMessage.location.latitude,
-            longitude: currentMessage.location.longitude,
+            latitude: Number(currentMessage.location.latitude),
+            longitude: Number(currentMessage.location.longitude),
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
