@@ -115,8 +115,8 @@ export default class Chat extends React.Component {
               },
               messages: [
                 {
-                  _id: 1,
-                  text: "Hello developer",
+                  _id: 2,
+                  text: "Enjoying Paris",
                   createdAt: new Date(),
                   location: {
                     latitude: 48.864601,
@@ -130,8 +130,8 @@ export default class Chat extends React.Component {
                 },
 
                 {
-                  _id: 2,
-                  text: "What's up?",
+                  _id: 1,
+                  text: "Hello developer",
                   createdAt: new Date(),
 
                   user: {
@@ -140,6 +140,7 @@ export default class Chat extends React.Component {
                     avatar: "https://placeimg.com/140/140/any",
                   },
                 },
+
                 /*
                 {
                   _id: user.uid,

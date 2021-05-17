@@ -10,6 +10,8 @@ import Chat from "./components/Chat";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import { LogBox } from "react-native";
+
 // Create the navigator
 const Stack = createStackNavigator();
 
@@ -25,6 +27,7 @@ export default class App extends React.Component {
   }
 
   render() {
+    LogBox.ignoreAllLogs();
     return (
       <NavigationContainer>
         {/* Initialize the App from Home View */}
