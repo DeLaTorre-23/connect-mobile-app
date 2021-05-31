@@ -1,6 +1,6 @@
 # **Connect App**
 
-This is a native app for mobile devices that allows users to chat and share their images and locations.
+This is a native app for mobile devices that allows users to chat and share their images and locations. It built with React Native and Expo that stores data with Google Firebase.
 
 # Features
 
